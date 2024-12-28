@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Directed Graph</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div id="graph-container"></div>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            themeMode = "dark";
+        } else {
+            themeMode = "light";
+        }
+
+        var scale = 1;
+        var directGraph = DirectGraph;
+        directGraph.drawGraph(id = 'graph-container', options = {
+            node_size: 20 * scale,
+            shape: 'circle',
+            theme: themeMode,
+            nodes: [
+                { id: 'a', x: 0, y: 0, size: 100 },
+                { id: 'b', x: 210 * scale, y: -30 * scale, size: 20 },
+                { id: 'c', x: 200 * scale, y: 30 * scale, size: 20 },
+                { id: 'd', x: 200 * scale, y: -200 * scale, size: 10 },
+                { id: 'e', x: 100 * scale, y: -200 * scale, size: 10 }
+            ],
+            links: [
+                { source: 'a', target: 'b' }
+            ],
+            labels: {
+                'a': 'Go to a for real-time display'
+            }
+
+        });
+
+        directGraph.updateNodesLinks([
+            { source: 'a', target: 'b' },
+            { source: 'a', target: 'c' },
+            { source: 'c', target: 'b' },
+            { source: 'b', target: 'd' },
+            { source: 'd', target: 'e' }
+        ]);
+
+        // directGraph.updateNodesLabels({
+        //     'a': 'Go to a for real-time display yeah',
+        //     'b': 'Hi',
+        //     'c': 'Hi',
+        //     'd': 'Hi',
+        //     'e': 'Hi'
+        // });
+
+        directGraph.updateNodesHoverHTML({
+            'b': 'Running',
+            'c': 'Running',
+            'd': 'Stop',
+            'e': 'Stop'
+        })
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            const newColorScheme = event.matches ? "dark" : "light";
+
+            directGraph.updateTheme(newColorScheme);
+        });
+
+    </script>
+</body>
+
+</html>
